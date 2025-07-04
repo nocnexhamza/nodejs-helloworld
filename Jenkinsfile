@@ -11,8 +11,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main', 
-                url: 'https://github.com/nocnexhamza/nodejs-helloworld.git',
-                
+                url: 'https://github.com/nocnexhamza/nodejs-helloworld.git'
             }
         }
         
@@ -32,7 +31,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Fixed docker build command with BuildKit enabled
                     sh """
                         DOCKER_BUILDKIT=1 docker build \
                         -t ${DOCKER_REGISTRY}/${APP_NAME}:${env.BUILD_NUMBER} .
@@ -63,7 +61,6 @@ pipeline {
                 script {
                     withKubeConfig([credentialsId: 'k8s-credentials']) {
                         sh """
-                            # Use temp file to preserve original
                             sed 's|image:.*|image: ${DOCKER_REGISTRY}/${APP_NAME}:${env.BUILD_NUMBER}|g' \
                                 k8s/deployment.yaml > k8s/deployment-${env.BUILD_NUMBER}.yaml
                             
@@ -80,9 +77,8 @@ pipeline {
     post {
         always {
             script {
-                // Clean up temporary files
                 sh 'rm -f k8s/deployment-*.yaml || true'
-                cleanWs()  // Jenkins built-in workspace cleaner
+                cleanWs()
             }
         }
         success {
