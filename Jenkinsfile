@@ -10,16 +10,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', 
-                url: 'https://github.com/nocnexhamza/hello_world.git',
-                credentialsId: 'your-github-credentials'
+                url: 'https://github.com/nocnexhamza/nodejs-helloworld.git',
             }
         }
         
         stage('Build & Test') {
             agent {
                 docker {
-                    image 'node:18'
+                    image 'node:18-alpine'
                     args '-u root'  // Needed for dependency installation
                 }
             }
