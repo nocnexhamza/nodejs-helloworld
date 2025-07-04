@@ -7,17 +7,19 @@ pipeline {
         K8S_DEPLOYMENT = 'nodejs-hello-world'
     }
     
-     stage('Checkout') {
+    stages {
+        stage('Checkout') {
             steps {
                 git branch: 'main', 
                 url: 'https://github.com/nocnexhamza/nodejs-helloworld.git',
+                
             }
         }
         
         stage('Build & Test') {
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'node:18'
                     args '-u root'  // Needed for dependency installation
                 }
             }
