@@ -7,9 +7,9 @@ pipeline {
         K8S_DEPLOYMENT = 'nodejs-hello-world'
     }
     
-    stages {
-        stage('Checkout') {
+     stage('Checkout') {
             steps {
+                git branch: 'main', 
                 url: 'https://github.com/nocnexhamza/nodejs-helloworld.git',
             }
         }
