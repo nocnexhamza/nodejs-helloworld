@@ -1,5 +1,19 @@
 apiVersion: v2
 name: nodejs-helloworld
 description: A Helm chart for Node.js application
+type: application
 version: 0.1.0
-appVersion: "1.0.0"
+appVersion: "1.16.0"
+
+keywords:
+  - nodejs-nocnexus.com
+  - web
+  - helm-chart
+
+home: https://example.com/my-app
+sources:
+  - https://github.com/nocnexhamza/nodejs-helloworld
+maintainers:
+  - name: nocnexus
+    email: nocnex.hamza@hotmail.com
+    
