@@ -16,4 +16,8 @@ sources:
 maintainers:
   - name: nocnexus
     email: nocnex.hamza@hotmail.com
+icon: https://github.com/nocnexhamza/nodejs-helloworld/logo.png
+annotations:
+  category: WebApp
+  license: MIT
     
