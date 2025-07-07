@@ -1,0 +1,54 @@
+# Deployment Settings
+replicaCount: 1
+image:
+  repository: docker.io/nocnex/nodejs-hello-world
+  tag: latest
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+# Application Configuration
+port: 3000
+envVars:
+  NODE_ENV: production
+  PORT: 3000
+
+# Resource Limits
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "100m"
+  limits:
+    memory: "256Mi"
+    cpu: "500m"
+
+# Service Configuration
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+# Ingress Configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: nodejs.nocnexus.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - nodejs.nocnexus.com
+      secretName: tls-secret
+
+# ConfigMap Overrides
+config:
+  # custom-config.json: |
+  #   {
+  #     "feature": "enabled"
+  #   }
+
+# Secrets (in real usage, manage these securely!)
+secrets:
+  # DB_PASSWORD: changeme
