@@ -44,17 +44,17 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker run --rm \
-                            -v /var/run/docker.sock:/var/run/docker.sock \
-                            -v $WORKSPACE:/workspace \
-                            aquasec/trivy image \
-                            --exit-code 1 \
-                            --severity CRITICAL \
-                            --format template \
-                            --template "@/usr/local/share/trivy/templates/html.tpl" \
-                            --output /workspace/report.html \
-                            ${DOCKER_REGISTRY}/${APP_NAME}:${env.BUILD_NUMBER}
-                    '''
+    docker run --rm \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        -v $WORKSPACE:/workspace \
+        aquasec/trivy image \
+        --exit-code 1 \
+        --severity CRITICAL \
+        --format template \
+        --template "@/usr/local/share/trivy/templates/html.tpl" \
+        --output /workspace/report.html \
+        ${DOCKER_REGISTRY}/${APP_NAME}:${env.BUILD_NUMBER}
+'''
                 }
             }
             post {
