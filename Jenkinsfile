@@ -39,28 +39,28 @@ pipeline {
             }
         }
         
-        // NEW STAGE: Scan with Trivy
+        // Corrected Trivy Stage
         stage('Scan with Trivy') {
             steps {
                 script {
-                    sh '''
-    docker run --rm \
-        -v /var/run/docker.sock:/var/run/docker.sock \
-        -v $WORKSPACE:/workspace \
-        aquasec/trivy image \
-        --exit-code 1 \
-        --severity CRITICAL \
-        --format template \
-        --template "@/usr/local/share/trivy/templates/html.tpl" \
-        --output /workspace/report.html \
-        ${DOCKER_REGISTRY}/${APP_NAME}:${env.BUILD_NUMBER}
-'''
+                    sh label: 'Trivy Scan', script: '''#!/bin/bash
+                        docker run --rm \
+                            -v /var/run/docker.sock:/var/run/docker.sock \
+                            -v "$WORKSPACE:/workspace" \
+                            aquasec/trivy image \
+                            --exit-code 1 \
+                            --severity CRITICAL \
+                            --format template \
+                            --template "@/usr/local/share/trivy/templates/html.tpl" \
+                            --output /workspace/report.html \
+                            "${DOCKER_REGISTRY}/${APP_NAME}:${BUILD_NUMBER}"
+                    '''
                 }
             }
             post {
                 always {
                     publishHTML(target: [
-                        allowMissing: false,
+                        allowMissing: true,  // Allow missing report if scan fails
                         alwaysLinkToLastBuild: false,
                         keepAll: true,
                         reportDir: '.',
