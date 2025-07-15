@@ -99,6 +99,7 @@ pipeline {
                             
                             kubectl apply -f k8s/deployment-${env.BUILD_NUMBER}.yaml
                             kubectl apply -f k8s/service.yaml
+                            kubectl apply -f k8s/ingress.yaml
                             kubectl rollout status deployment/${K8S_DEPLOYMENT}
                         """
                     }
