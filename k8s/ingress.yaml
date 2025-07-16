@@ -5,9 +5,15 @@ metadata:
   namespace: default
   annotations:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+    cert-manager.io/cluster-issuer: letsencrypt-prod  # Optional: for auto-certificate management
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"  # Optional: force HTTP to HTTPS
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - cpanel.nocnexus.com
+    secretName: cpanel-nocnexus-com-tls
   rules:
   - host: cpanel.nocnexus.com
     http:
